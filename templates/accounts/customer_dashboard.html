@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}Customer Dashboard - Urban Services{% endblock %}
+{% block content %}
+<div class="row align-items-center mb-4">
+    <div class="col">
+        <h2 class="fw-bold">Welcome, {{ user.first_name|default:user.username }}!</h2>
+        <p class="text-muted">Manage your bookings and finds new services.</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-white border-bottom-0 py-3">
+                <h4 class="mb-0 fw-bold text-primary"><i class="fas fa-calendar-alt me-2"></i>My Bookings</h4>
+            </div>
+            <div class="card-body p-0">
+                {% if bookings %}
+                    <div class="list-group list-group-flush">
+                        {% for booking in bookings %}
+                            <div class="list-group-item p-3 border-bottom">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h5 class="mb-1 fw-bold">{{ booking.service.name }}</h5>
+                                        <div class="text-muted small">
+                                            <i class="far fa-clock me-1"></i> {{ booking.date }} at {{ booking.time }}
+                                        </div>
+                                    </div>
+                                    <div class="text-end">
+                                         <span class="badge bg-{% if booking.status == 'confirmed' %}primary{% elif booking.status == 'completed' %}success{% elif booking.status == 'pending' %}warning{% else %}secondary{% endif %} rounded-pill mb-2">
+                                            {{ booking.status|title }}
+                                        </span>
+                                        {% if booking.status == 'completed' %}
+                                            <div class="mt-1">
+                                                {% if not booking.review %}
+                                                    <a href="{% url 'add_review' booking.id %}" class="btn btn-sm btn-outline-success rounded-pill">Rate Service</a>
+                                                {% else %}
+                                                    <span class="badge bg-warning text-dark"><i class="fas fa-star me-1"></i>{{ booking.review.rating }}</span>
+                                                {% endif %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="p-4 text-center text-muted">
+                        <i class="far fa-calendar-times fa-4x mb-3 opacity-25"></i>
+                        <p>You have no active bookings.</p>
+                        <a href="{% url 'service_list' %}" class="btn btn-primary mt-2">Book a Service</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 mb-4">
+        <div class="card shadow-sm bg-primary text-white h-100 border-0">
+            <div class="card-body p-4 text-center d-flex flex-column justify-content-center">
+                <i class="fas fa-search-location fa-4x mb-3 opacity-50"></i>
+                <h3 class="fw-bold">Need Help?</h3>
+                <p class="opacity-75 mb-4">Browse our wide range of professional services.</p>
+                <a href="{% url 'service_list' %}" class="btn btn-light btn-lg text-primary fw-bold">Browse Services</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

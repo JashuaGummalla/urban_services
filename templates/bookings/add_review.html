@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Write a Review - Urban Services{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center my-5">
+    <div class="col-md-6">
+        <div class="card shadow-lg border-0">
+            <div class="card-header bg-warning text-dark py-3">
+                 <h4 class="mb-0 fw-bold"><i class="fas fa-star me-2"></i>Rate Your Experience</h4>
+            </div>
+            <div class="card-body p-5">
+                <h5 class="text-center mb-4">How was your experience with <span class="fw-bold text-primary">{{ booking.service.name }}</span>?</h5>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Rating</label>
+                        {{ form.rating }}
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Comment</label>
+                        {{ form.comment }}
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 py-2 fw-bold shadow-sm">Submit Review</button>
+                    <div class="text-center mt-3">
+                         <a href="{% url 'customer_dashboard' %}" class="text-muted text-decoration-none">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard - Urban Services{% endblock %}
+
+{% block content %}
+<div class="row mb-4 align-items-center">
+    <div class="col">
+        <h2 class="fw-bold">Admin Dashboard</h2>
+        <p class="text-muted">Platform Statistics & Overview</p>
+    </div>
+</div>
+
+<div class="row g-4 mb-5">
+    <!-- Stats Cards -->
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 bg-primary text-white h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="opacity-75">Total Customers</h6>
+                        <h2 class="fw-bold mb-0">{{ total_customers }}</h2>
+                    </div>
+                    <i class="fas fa-users fa-2x opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 bg-success text-white h-100">
+             <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="opacity-75">Service Providers</h6>
+                        <h2 class="fw-bold mb-0">{{ total_providers }}</h2>
+                    </div>
+                    <i class="fas fa-hard-hat fa-2x opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 bg-warning text-dark h-100">
+             <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="opacity-75">Active Bookings</h6>
+                        <h2 class="fw-bold mb-0">{{ active_bookings }}</h2>
+                    </div>
+                    <i class="fas fa-calendar-check fa-2x opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 bg-info text-white h-100">
+             <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="opacity-75">Total Revenue (Est.)</h6>
+                        <h2 class="fw-bold mb-0">₹{{ total_revenue }}</h2>
+                    </div>
+                    <i class="fas fa-coins fa-2x opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-header bg-white py-3">
+                <h5 class="mb-0 fw-bold">Recent Bookings</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="list-group list-group-flush">
+                    {% for booking in recent_bookings %}
+                        <div class="list-group-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="mb-0 fw-bold">{{ booking.service.name }}</h6>
+                                    <small class="text-muted">by {{ booking.customer.username }} • {{ booking.created_at|date:"M d" }}</small>
+                                </div>
+                                <span class="badge bg-secondary">{{ booking.status }}</span>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="p-3 text-center text-muted">No bookings yet.</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-header bg-white py-3">
+                 <h5 class="mb-0 fw-bold">New Providers</h5>
+            </div>
+             <div class="card-body p-0">
+                <div class="list-group list-group-flush">
+                    {% for provider in new_providers %}
+                        <div class="list-group-item">
+                             <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-light rounded-circle p-2 me-2">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0 fw-bold">{{ provider.user.username }}</h6>
+                                        <small class="text-muted">Exp: {{ provider.experience }} years</small>
+                                    </div>
+                                </div>
+                                {% if provider.is_verified %}
+                                    <span class="badge bg-success">Verified</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark">Pending</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% empty %}
+                         <div class="p-3 text-center text-muted">No new providers.</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

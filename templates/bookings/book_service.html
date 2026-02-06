@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% block title %}Book {{ service.name }} - Urban Services{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-lg border-0">
+            <div class="card-header bg-primary text-white py-3">
+                <h4 class="mb-0 fw-bold">Complete Your Booking</h4>
+            </div>
+            <div class="card-body p-5">
+                <h5 class="mb-4">Service: <span class="text-primary fw-bold">{{ service.name }}</span></h5>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="row g-3">
+                         <div class="col-md-6">
+                            <label class="form-label fw-bold">Date</label>
+                            {{ form.date }}
+                            {% if form.date.errors %}
+                                <div class="text-danger small mt-1">{{ form.date.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Time</label>
+                            {{ form.time }}
+                            {% if form.time.errors %}
+                                <div class="text-danger small mt-1">{{ form.time.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Address</label>
+                            <div class="input-group mb-2">
+                                {{ form.address }}
+                                <button type="button" class="btn btn-outline-primary" id="getLocationBtn" title="Use my current location">
+                                    <i class="fas fa-map-marker-alt me-1"></i> Use My Location
+                                </button>
+                            </div>
+                            <div id="locationStatus" class="form-text text-success d-none"><i class="fas fa-check-circle me-1"></i> Location coordinates captured!</div>
+                             {% if form.address.errors %}
+                                <div class="text-danger small mt-1">{{ form.address.errors.0 }}</div>
+                            {% endif %}
+                            {{ form.latitude }}
+                            {{ form.longitude }}
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Notes (Optional)</label>
+                            {{ form.notes }}
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <a href="{% url 'service_detail' service.id %}" class="text-decoration-none text-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary px-5 py-2 fw-bold shadow-sm">Confirm Booking</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const locationBtn = document.getElementById('getLocationBtn');
+        const addressInput = document.getElementById('id_address');
+        const latInput = document.getElementById('id_latitude');
+        const longInput = document.getElementById('id_longitude');
+        const statusMsg = document.getElementById('locationStatus');
+
+        if (locationBtn) {
+            locationBtn.addEventListener('click', function() {
+                if (navigator.geolocation) {
+                    locationBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Detecting...';
+                    locationBtn.disabled = true;
+
+                    navigator.geolocation.getCurrentPosition(
+                        function(position) {
+                            const lat = position.coords.latitude;
+                            const long = position.coords.longitude;
+                            
+                            latInput.value = lat;
+                            longInput.value = long;
+                            
+                            // Visual feedback
+                            locationBtn.innerHTML = '<i class="fas fa-map-marker-alt me-1"></i> Location Found';
+                            locationBtn.classList.remove('btn-outline-primary');
+                            locationBtn.classList.add('btn-success');
+                            statusMsg.classList.remove('d-none');
+                            
+                            // Optional: Reverse geocoding could go here to fill address text, 
+                            // but for now we just autofill a placeholder if empty
+                            if (!addressInput.value) {
+                                addressInput.value = `Map Location (${lat.toFixed(4)}, ${long.toFixed(4)})`;
+                            }
+                        },
+                        function(error) {
+                            console.error("Error getting location:", error);
+                            locationBtn.innerHTML = '<i class="fas fa-exclamation-triangle me-1"></i> Retry';
+                            locationBtn.disabled = false;
+                            alert("Could not get your location. Please ensure location access is allowed.");
+                        }
+                    );
+                } else {
+                    alert("Geolocation is not supported by this browser.");
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

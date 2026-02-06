@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% block title %}Provider Dashboard - Urban Services{% endblock %}
+{% block content %}
+<div class="row align-items-center mb-4">
+    <div class="col">
+        <h2 class="fw-bold">Provider Dashboard</h2>
+        <p class="text-muted">Manage your jobs and profile.</p>
+    </div>
+    <div class="col-auto">
+        <div class="alert {% if user.provider_profile.is_verified %}alert-success{% else %}alert-warning{% endif %} py-2 px-3 mb-0 rounded-pill">
+            <strong>Status:</strong> {% if user.provider_profile.is_verified %}Verified <i class="fas fa-check-circle ms-1"></i>{% else %}Pending Verification{% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Available Jobs (New) -->
+<div class="card shadow-sm mb-4 border-0">
+    <div class="card-header bg-white py-3 border-bottom-0">
+        <h4 class="mb-0 fw-bold text-success"><i class="fas fa-bell me-2"></i>New Job Requests</h4>
+    </div>
+    <div class="card-body p-0">
+        {% if available_bookings %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="ps-4">Service</th>
+                            <th>Customer</th>
+                            <th>Location</th>
+                            <th>Date/Time</th>
+                            <th class="pe-4 text-end">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for job in available_bookings %}
+                            <tr>
+                                <td class="ps-4 fw-bold">{{ job.service.name }}</td>
+                                <td>{{ job.customer.username }}</td>
+                                <td>{{ job.address }}</td>
+                                <td>{{ job.date }} {{ job.time }}</td>
+                                <td class="pe-4 text-end">
+                                    <a href="{% url 'accept_booking' job.id %}" class="btn btn-sm btn-success rounded-pill px-3">Accept</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="p-4 text-center text-muted">
+                <p class="mb-0">No new jobs available at the moment.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row">
+    <!-- Active Assignments -->
+    <div class="col-lg-8 mb-4">
+        <div class="card shadow-sm h-100 border-0">
+            <div class="card-header bg-white py-3 border-bottom-0">
+                <h4 class="mb-0 fw-bold text-primary"><i class="fas fa-briefcase me-2"></i>My Assignments</h4>
+            </div>
+            <div class="card-body p-0">
+                {% if assignments %}
+                    <div class="list-group list-group-flush">
+                        {% for job in assignments %}
+                            <div class="list-group-item p-3 border-bottom">
+                                <div class="row align-items-center">
+                                    <div class="col-md-6">
+                                        <h5 class="mb-1 fw-bold">{{ job.service.name }}</h5>
+                                        <p class="mb-1 text-muted small"><i class="fas fa-user me-1"></i> {{ job.customer.username }}</p>
+                                        <p class="mb-1 text-muted small"><i class="fas fa-phone me-1"></i> 
+                                            {% if job.status == 'confirmed' or job.status == 'completed' %}
+                                                {{ job.customer.phone_number }}
+                                            {% else %}
+                                                <span class="text-secondary fst-italic">Contact details hidden</span>
+                                            {% endif %}
+                                        </p>
+                                        <p class="mb-1 text-muted small"><i class="fas fa-map-marker-alt me-1"></i> {{ job.address }}</p>
+                                        {% if job.latitude and job.longitude %}
+                                            <p class="mb-1 small">
+                                                <a href="https://www.google.com/maps/search/?api=1&query={{ job.latitude }},{{ job.longitude }}" target="_blank" class="text-primary text-decoration-none fw-bold">
+                                                    <i class="fas fa-map-marked-alt me-1"></i> View on Google Maps
+                                                </a>
+                                            </p>
+                                        {% endif %}
+                                        <p class="mb-0 text-muted small"><i class="far fa-clock me-1"></i> {{ job.date }} {{ job.time }}</p>
+                                    </div>
+                                    <div class="col-md-6 mt-3 mt-md-0 text-md-end">
+                                        <div class="d-flex justify-content-md-end align-items-center gap-2">
+                                            <span class="badge bg-{% if job.status == 'confirmed' %}primary{% elif job.status == 'completed' %}success{% else %}secondary{% endif %} rounded-pill">
+                                                {{ job.status|title }}
+                                            </span>
+                                            
+                                            {% if job.status != 'completed' and job.status != 'cancelled' %}
+                                                <form action="{% url 'update_booking_status' job.id %}" method="post" class="d-inline-flex align-items-center bg-light rounded-pill p-1 border">
+                                                    {% csrf_token %}
+                                                    <select name="status" class="form-select form-select-sm border-0 bg-transparent py-0 ps-2" style="width: auto; box-shadow: none;">
+                                                       <option value="confirmed" {% if job.status == 'confirmed' %}selected{% endif %}>Confirm</option>
+                                                       <option value="completed" {% if job.status == 'completed' %}selected{% endif %}>Complete</option>
+                                                       <option value="cancelled" {% if job.status == 'cancelled' %}selected{% endif %}>Cancel</option>
+                                                    </select>
+                                                    <button type="submit" class="btn btn-sm btn-dark rounded-circle ms-1" style="width: 24px; height: 24px; padding: 0; line-height: 24px;"><i class="fas fa-check" style="font-size: 10px;"></i></button>
+                                                </form>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="p-4 text-center text-muted">
+                        <p class="mb-0">No active assignments.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Profile Card -->
+    <div class="col-lg-4 mb-4">
+        <div class="card shadow-sm h-100 border-0">
+            <div class="card-header bg-white py-3 border-bottom-0">
+                <h4 class="mb-0 fw-bold text-dark"><i class="fas fa-id-card me-2"></i>My Profile</h4>
+            </div>
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="bg-light rounded-circle p-3 me-3 text-primary">
+                        <i class="fas fa-user fa-2x"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-0 fw-bold">{{ user.username }}</h5>
+                        <small class="text-muted">{{ user.email }}</small>
+                    </div>
+                </div>
+                <hr>
+                <div class="mb-3">
+                    <label class="small text-muted fw-bold text-uppercase">Skills</label>
+                    <p class="mb-0">{{ user.provider_profile.skills }}</p>
+                </div>
+                <div>
+                    <label class="small text-muted fw-bold text-uppercase">Experience</label>
+                    <p class="mb-3">{{ user.provider_profile.experience }} years</p>
+                </div>
+                <div class="d-grid">
+                    <a href="{% url 'provider_profile_update' %}" class="btn btn-outline-primary fw-bold">
+                        <i class="fas fa-edit me-2"></i>Edit Profile & Services
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

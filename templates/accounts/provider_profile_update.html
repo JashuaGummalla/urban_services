@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}Update Profile - Urban Services{% endblock %}
+{% block content %}
+<div class="row justify-content-center my-5">
+    <div class="col-md-8">
+        <div class="card shadow-lg border-0">
+            <div class="card-header bg-white py-3 border-bottom-0">
+                <h4 class="mb-0 fw-bold"><i class="fas fa-user-edit me-2"></i>Update Your Profile</h4>
+            </div>
+            <div class="card-body p-5">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label fw-bold">Skills</label>
+                            {{ form.skills }}
+                            <div class="form-text text-muted">{{ form.skills.help_text }}</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Experience (Years)</label>
+                            {{ form.experience }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                             <label class="form-label fw-bold">Profile Picture</label>
+                             {{ form.profile_picture }}
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="form-label fw-bold d-block mb-2">Services You Provide</label>
+                            <div class="card p-3 bg-light border-0">
+                                <div class="row">
+                                    {% for checkbox in form.services %}
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                {{ checkbox.tag }}
+                                                <label class="form-check-label" for="{{ checkbox.id_for_label }}">
+                                                    {{ checkbox.choice_label }}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                             <div class="form-text text-muted">{{ form.services.help_text }}</div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <a href="{% url 'provider_dashboard' %}" class="text-decoration-none text-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary px-5 py-2 fw-bold shadow-sm">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
