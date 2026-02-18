@@ -49,6 +49,8 @@ def update_booking_status(request, booking_id):
         new_status = request.POST.get('status')
         if new_status in ['confirmed', 'completed', 'cancelled']:
             booking.status = new_status
+            if new_status == 'cancelled':
+                booking.cancellation_reason = request.POST.get('cancellation_reason')
             booking.save()
     return redirect('provider_dashboard')
 

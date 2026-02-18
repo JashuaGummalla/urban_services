@@ -1,0 +1,13 @@
+{% extends 'accounts/base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="welcome">
+    Welcome, {{ name }}!
+</div>
+<div style="text-align:center; margin-bottom:18px;">
+    email: <strong>{{ email }}</strong>
+</div>
+<a href="{% url 'login' %}">
+    <button style="margin-top:10px;">Logout</button>
+</a>
+{% endblock %}

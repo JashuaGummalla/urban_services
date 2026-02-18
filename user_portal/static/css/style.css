@@ -1,0 +1,146 @@
+body {
+    background: #f0f4f8;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.center-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    box-sizing: border-box;
+}
+
+h2 {
+    color: #0056b3;
+    font-size: 28px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+form label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 6px;
+    color: #333;
+}
+
+form input, form select {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 18px;
+    border: 1.5px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+form input:focus, form select:focus {
+    border-color: #0056b3;
+    outline: none;
+    box-shadow: 0 0 6px #a7c7ff;
+}
+
+button {
+    width: 100%;
+    background-color: #0056b3;
+    border: none;
+    color: white;
+    padding: 12px 0;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 86, 179, 0.4);
+}
+
+button:hover {
+    background-color: #003d80;
+    box-shadow: 0 6px 10px rgba(0, 61, 128, 0.6);
+}
+
+.errorlist {
+    color: #bf1650;
+    background-color: #fee9f0;
+    padding: 8px 12px;
+    border-left: 5px solid #bf1650;
+    margin-bottom: 16px;
+    border-radius: 4px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+table th, table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+table th {
+    background-color: #0078cc;
+    color: white;
+}
+
+table tr:nth-child(even) {
+    background-color: #f4f9ff;
+}
+
+table tr:hover {
+    background-color: #cce4ff;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.welcome {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: #003d80;
+}
+
+/* Link styling */
+a {
+  color: #0056b3;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #003d80;
+  text-decoration: underline;
+}
+
+/* Quantity input in user dashboard */
+input[type=number] {
+    max-width: 80px;
+    padding: 6px;
+    font-size: 16px;
+    border: 1.5px solid #ddd;
+    border-radius: 6px;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .center-container {
+        max-width: 95%;
+        padding: 20px;
+    }
+    table th, table td {
+        padding: 8px;
+        font-size: 14px;
+    }
+    button {
+        font-size: 16px;
+        padding: 10px 0;
+    }
+}
+

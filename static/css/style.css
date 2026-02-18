@@ -2,17 +2,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 :root {
-    --primary-color: #6C63FF;
-    /* Modern Purple/Blue */
-    --secondary-color: #3F3D56;
+    --primary-color: #20B2AA;
+    /* LightSeaGreen */
+    --primary-dark: #17807a;
+    --secondary-color: #2c3e50;
     --success-color: #2ECC71;
     --warning-color: #FFB74D;
     --danger-color: #FF6584;
     --dark-color: #2F2E41;
     --light-color: #F9FAFB;
     --body-bg: #F3F4F6;
-    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --card-hover-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --card-shadow: 0 10px 20px rgba(32, 178, 170, 0.1);
+    --card-hover-shadow: 0 15px 30px rgba(32, 178, 170, 0.2);
     --transition-speed: 0.3s;
 }
 
@@ -63,13 +64,13 @@ body {
 .btn-primary {
     background-color: var(--primary-color);
     border-color: var(--primary-color);
-    box-shadow: 0 4px 6px rgba(108, 99, 255, 0.25);
+    box-shadow: 0 4px 6px rgba(32, 178, 170, 0.25);
 }
 
 .btn-primary:hover {
-    background-color: #5a52d5;
+    background-color: var(--primary-dark);
     transform: translateY(-2px);
-    box-shadow: 0 6px 10px rgba(108, 99, 255, 0.3);
+    box-shadow: 0 6px 10px rgba(32, 178, 170, 0.3);
 }
 
 .btn-outline-primary {
@@ -118,7 +119,7 @@ body {
 .form-control:focus,
 .form-select:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+    box-shadow: 0 0 0 3px rgba(32, 178, 170, 0.1);
 }
 
 .form-label {
@@ -139,7 +140,7 @@ body {
 
 /* Hero Section (Home) */
 .hero-section {
-    background: linear-gradient(135deg, #6C63FF 0%, #4834d4 100%);
+    background: linear-gradient(135deg, #20B2AA 0%, #17807a 100%);
     color: white;
     padding: 7rem 0 6rem;
     border-radius: 0 0 40px 40px;
@@ -156,6 +157,12 @@ body {
     right: 0;
     bottom: 0;
     background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    z-index: 0;
+}
+
+.hero-section .container {
+    position: relative;
+    z-index: 1;
 }
 
 /* Service Card Images */
@@ -198,14 +205,14 @@ body {
 }
 
 .list-group-item:hover {
-    background-color: rgba(108, 99, 255, 0.05);
+    background-color: rgba(32, 178, 170, 0.05);
     color: var(--primary-color);
 }
 
 .list-group-item.active {
-    background-color: rgba(108, 99, 255, 0.1);
+    background-color: rgba(32, 178, 170, 0.1);
     color: var(--primary-color);
-    border: 1px solid rgba(108, 99, 255, 0.2);
+    border: 1px solid rgba(32, 178, 170, 0.2);
 }
 
 /* Input Groups */

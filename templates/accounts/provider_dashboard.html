@@ -99,10 +99,12 @@
                                                     <select name="status" class="form-select form-select-sm border-0 bg-transparent py-0 ps-2" style="width: auto; box-shadow: none;">
                                                        <option value="confirmed" {% if job.status == 'confirmed' %}selected{% endif %}>Confirm</option>
                                                        <option value="completed" {% if job.status == 'completed' %}selected{% endif %}>Complete</option>
-                                                       <option value="cancelled" {% if job.status == 'cancelled' %}selected{% endif %}>Cancel</option>
                                                     </select>
                                                     <button type="submit" class="btn btn-sm btn-dark rounded-circle ms-1" style="width: 24px; height: 24px; padding: 0; line-height: 24px;"><i class="fas fa-check" style="font-size: 10px;"></i></button>
                                                 </form>
+                                                <button type="button" class="btn btn-sm btn-outline-danger rounded-pill ms-2" data-bs-toggle="modal" data-bs-target="#cancellationModal" data-url="{% url 'update_booking_status' job.id %}">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
                                             {% endif %}
                                         </div>
                                     </div>
@@ -153,4 +155,49 @@
         </div>
     </div>
 </div>
+
+{% endblock %}
+
+{% block modals %}
+<!-- Cancellation Modal -->
+<div class="modal fade" id="cancellationModal" tabindex="-1" aria-labelledby="cancellationModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="cancellationModalLabel">Cancel Booking</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="cancellationForm" method="post">
+        {% csrf_token %}
+        <div class="modal-body">
+            <input type="hidden" name="status" value="cancelled">
+            <div class="mb-3">
+                <label for="cancellationReason" class="form-label">Reason for Cancellation</label>
+                <textarea class="form-control" id="cancellationReason" name="cancellation_reason" rows="3" required placeholder="Please provide a reason for cancelling this booking..."></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-danger">Confirm Cancellation</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    var cancellationModal = document.getElementById('cancellationModal')
+    if (cancellationModal) {
+        cancellationModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget
+            var url = button.getAttribute('data-url')
+            var form = document.getElementById('cancellationForm')
+            if (form && url) {
+                form.action = url
+            }
+        })
+    }
+</script>
 {% endblock %}

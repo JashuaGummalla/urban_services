@@ -21,6 +21,7 @@ class Booking(models.Model):
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
+    cancellation_reason = models.TextField(blank=True, null=True, help_text="Reason for cancellation by provider")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -1,0 +1,59 @@
+Creating test database for alias 'default'...
+EE
+======================================================================
+ERROR: test_provider_can_cancel_booking_with_reason (bookings.tests.BookingCancellationTests.test_provider_can_cancel_booking_with_reason)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\prasad\OneDrive\Desktop\Django\urban_services\bookings\tests.py", line 19, in setUp
+    self.service = Service.objects.create(
+                   ~~~~~~~~~~~~~~~~~~~~~~^
+        name='Cleaning',
+        ^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        provider=self.provider
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\prasad\AppData\Roaming\Python\Python313\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\prasad\AppData\Roaming\Python\Python313\site-packages\django\db\models\query.py", line 663, in create
+    obj = self.model(**kwargs)
+  File "C:\Users\prasad\AppData\Roaming\Python\Python313\site-packages\django\db\models\base.py", line 569, in __init__
+    raise TypeError(
+    ...<2 lines>...
+    )
+TypeError: Service() got unexpected keyword arguments: 'provider'
+
+======================================================================
+ERROR: test_provider_cannot_cancel_others_booking (bookings.tests.BookingCancellationTests.test_provider_cannot_cancel_others_booking)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\prasad\OneDrive\Desktop\Django\urban_services\bookings\tests.py", line 19, in setUp
+    self.service = Service.objects.create(
+                   ~~~~~~~~~~~~~~~~~~~~~~^
+        name='Cleaning',
+        ^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        provider=self.provider
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\prasad\AppData\Roaming\Python\Python313\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\prasad\AppData\Roaming\Python\Python313\site-packages\django\db\models\query.py", line 663, in create
+    obj = self.model(**kwargs)
+  File "C:\Users\prasad\AppData\Roaming\Python\Python313\site-packages\django\db\models\base.py", line 569, in __init__
+    raise TypeError(
+    ...<2 lines>...
+    )
+TypeError: Service() got unexpected keyword arguments: 'provider'
+
+----------------------------------------------------------------------
+Ran 2 tests in 2.894s
+
+FAILED (errors=2)
+Destroying test database for alias 'default'...
+Found 2 test(s).
+System check identified no issues (0 silenced).

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Send Email</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #86bec3, #2575fc);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  .email-form-container {
+    background-color: white;
+    padding: 30px 40px;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgb(0 0 0 / 0.25);
+    max-width: 400px;
+    width: 100%;
+  }
+  .email-form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  .email-form-container label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+    color: #555;
+  }
+  .email-form-container input[type="email"],
+  .email-form-container input[type="text"],
+  .email-form-container textarea {
+    width: 100%;
+    padding: 10px 14px;
+    margin-bottom: 15px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: 0.3s;
+  }
+  .email-form-container input[type="email"]:focus,
+  .email-form-container input[type="text"]:focus,
+  .email-form-container textarea:focus {
+    border-color: #2575fc;
+    outline: none;
+  }
+  .email-form-container button {
+    background-color: #2575fc;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  .email-form-container button:hover {
+    background-color: #6a11cb;
+  }
+  .message {
+    margin-top: 15px;
+    text-align: center;
+    font-weight: bold;
+  }
+  .message.success {
+    color: green;
+  }
+  .message.error {
+    color: red;
+  }
+</style>
+</head>
+<body>
+  <div class="email-form-container">
+    <h2>Send an Email</h2>
+    <form method="post">
+      {% csrf_token %}
+      <label for="to_email">Receiver's Email</label>
+      <input type="email" id="to_email" name="to_email" placeholder="Enter receiver's email" required />
+      
+      <label for="subject">Subject</label>
+      <input type="text" id="subject" name="subject" placeholder="Enter subject" required />
+      
+      <label for="message">Message</label>
+      <textarea id="message" name="message" rows="6" placeholder="Enter your message" required></textarea>
+      
+      <button type="submit">Send Email</button>
+    </form>
+    {% if success %}
+    <p class="message success">{{ success }} TO {{ to_email }} </p>
+    {% endif %}
+    {% if error %}
+    <p class="message error">{{ error }} TO {{ to_email }}</p>
+    {% endif %}
+  </div>
+</body>
+</html>

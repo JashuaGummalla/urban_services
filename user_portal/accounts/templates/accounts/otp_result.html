@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OTP Result</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f4f8;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+        .container {
+            background: #fff;
+            padding: 2rem 3rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .success {
+            color: green;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .error {
+            color: red;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        p {
+            color: #555;
+            font-size: 1rem;
+        }
+        a {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 0.5rem 1.25rem;
+            background: #007BFF;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        a:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="{% if 'Successfully' in message %}success{% else %}error{% endif %}">
+            {{ message }}
+        </h2>
+        <p>Email: {{ receiver }}</p>
+        <a href="{% url 'send_otp' %}">Try Again</a>
+    </div>
+</body>
+</html>

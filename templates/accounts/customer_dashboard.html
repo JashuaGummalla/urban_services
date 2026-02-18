@@ -27,9 +27,14 @@
                                         </div>
                                     </div>
                                     <div class="text-end">
-                                         <span class="badge bg-{% if booking.status == 'confirmed' %}primary{% elif booking.status == 'completed' %}success{% elif booking.status == 'pending' %}warning{% else %}secondary{% endif %} rounded-pill mb-2">
+                                        <span class="badge bg-{% if booking.status == 'confirmed' %}primary{% elif booking.status == 'completed' %}success{% elif booking.status == 'pending' %}warning{% else %}secondary{% endif %} rounded-pill mb-2">
                                             {{ booking.status|title }}
                                         </span>
+                                        {% if booking.status == 'cancelled' and booking.cancellation_reason %}
+                                            <div class="alert alert-danger py-1 px-2 mt-1 mb-0 small text-start">
+                                                <i class="fas fa-info-circle me-1"></i> <strong>Reason:</strong> {{ booking.cancellation_reason }}
+                                            </div>
+                                        {% endif %}
                                         {% if booking.status == 'completed' %}
                                             <div class="mt-1">
                                                 {% if not booking.review %}

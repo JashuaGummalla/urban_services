@@ -1,0 +1,42 @@
+{% extends 'accounts/base.html' %}
+{% block title %}User Dashboard{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <h2 class="text-primary mt-3">Welcome {{ name }}!</h2>
+    <p class="text-secondary mb-4">Email: {{ email }}</p>
+
+    <h4>Available Products</h4>
+    <table class="table table-bordered table-hover w-100">
+      <thead class="table-primary">
+        <tr>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Available Quantity</th>
+          <th>Quantity to Purchase</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for product in products %}
+          <tr>
+  <td>{{ product.name }}</td>
+  <td>₹{{ product.price }}</td>
+  <td>{{ product.quantity }}</td>
+  <td>
+    <form method="post" action="{% url 'purchase_product' product.id %}">
+      {% csrf_token %}
+      <input type="number" name="quantity" class="form-control" min="1" max="{{ product.quantity }}" value="1" required>
+  </td>
+  <td>
+      <button type="submit" class="btn btn-success btn-sm">Buy</button>
+    </form>
+  </td>
+</tr>
+
+        {% empty %}
+        <tr><td colspan="5">No products available.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>
+{% endblock %}
